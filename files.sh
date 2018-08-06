@@ -1,7 +1,7 @@
 #! /bin/sh
 
-SRC="./api-specs/"
-TF_FILE="files.tf"
+SRC=./api-specs
+TF_FILE="./files.tf"
 
 cat > $TF_FILE ''
 
