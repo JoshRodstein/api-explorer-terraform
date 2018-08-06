@@ -1,3 +1,9 @@
+provider "aws" {
+  access_key = "AKIAI7LVW6H4SHQGLYNA"
+  secret_key = "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"
+  region     = "us-east-2"
+}
+
 variable "mime_types" {
   default = {
     yaml = "application/yaml"
