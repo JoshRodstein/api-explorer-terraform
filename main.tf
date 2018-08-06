@@ -24,6 +24,6 @@ data "template_file" "s3_public_policy" {
 
 resource "aws_s3_bucket" "epc-api-specs" {
   bucket = "${var.bucket}"
-  acl = "public-read"
+  acl = ""
   policy = "${data.template_file.s3_public_policy.rendered}"
 }
