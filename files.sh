@@ -11,7 +11,7 @@ find $SRC -iname '*.*' | while read path; do
     cat >> $TF_FILE << EOM
 
 resource "aws_s3_bucket_object" "file_$COUNT" {
-  bucket = "\${aws_s3_bucket.epc-api-specs.epc-api-specs}"
+  bucket = "\${aws_s3_bucket.epc-api-specs.bucket}"
   key = "${path#$SRC}"
   source = "$path"
   content_type = "\${lookup(var.mime_types, "${path##*.}")}"
