@@ -29,5 +29,5 @@ resource "aws_s3_bucket" "epc-api-specs" {
 }
 
 output "url" {
-  value "${aws_s3_bucket.epc-api-specs.bucket}.s3-website-${var.region}.amazonaws.com"
+  value "${aws_s3_bucket.epc-api-specs.bucket}.s3-website-${var.region}.amazonaws.com}"
 }
