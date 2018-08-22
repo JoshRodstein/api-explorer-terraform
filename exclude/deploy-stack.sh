@@ -25,8 +25,8 @@ ENABLE_EIP="false"
 KEY_NAME="epc-api-doc-server-key-pair"
 S3_BUCKET="epc-tf-remote-state"
 REGION="us-east-2"
-DOC_REPO=http://jrodstein:Jackalgod1@githubdev.dco.elmae/api-platform/partner-connect.git
-SLATE_REPO=http://jrodstein:Jackalgod1@githubdev.dco.elmae/jrodstein/slate.git
+DOC_REPO=http://username:password@githubdev.dco.elmae/api-platform/partner-connect.git
+SLATE_REPO=http://username:password@githubdev.dco.elmae/jrodstein/slate.git
 
 while getopts f:t:e:k:b:r: option
 do
