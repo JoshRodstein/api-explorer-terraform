@@ -1,0 +1,29 @@
+#!/bin/bash
+#
+# - Script gathers OpenApi-3.0 docs,
+# - converts them to 2.0 markdown for slate
+# - concatenates them into one single markdown
+# - builds static files for hosting in build folder of slate dir
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
+
+# remove previous index file from source before build
+rm /usr/share/nginx/html/slate/source/index.html.md
+
+FILES=/usr/share/nginx/html/specs/*
+for f in $FILES
+do
+  if [[ "$f" == *.json ]] || [[ "$f" == *.yaml ]]; then
+    echo "Processing $f file..."
+    # generate markdown for each API Object. $f store current file name
+    # concatenate all markdowns into single master markdown
+    node /usr/bin/widdershins "$f" -o ./tmp.html.md
+    cat ./tmp.html.md >> /usr/share/nginx/html/slate/source/index.html.md
+  fi
+done
+
+# build static files from master markdown in slate source directory
+cd /usr/share/nginx/html/slate
+echo "building static files"
+bundle exec middleman build --clean

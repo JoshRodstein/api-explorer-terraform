@@ -1,29 +1,31 @@
 provider "aws" {
-  access_key = "AKIAI7LVW6H4SHQGLYNA"
-  secret_key = "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"
-  region     = "us-east-2"
+  region          = "${var.region}"
 }
 
-variable "mime_types" {
-  default = {
-    yaml = "application/yaml"
-    json = "application/json"
-  }
+/* Configs for backend passed via command line at "init" */
+terraform {
+  backend "s3" { }
 }
 
-variable "bucket" {
-  default = "epc-api-specs"
+module "ec2_security_group" {
+  source          = "./modules/security_groups/"
+  env             = "${var.env}"
 }
 
-data "template_file" "s3_public_policy" {
-  template = "${file("policies/s3-public.json")}"
-  vars {
-    bucket_name = "${var.bucket}"
-  }
-}
+module "aws_ami" {
+  source          = "./modules/ec2"
 
-resource "aws_s3_bucket" "epc-api-specs" {
-  bucket = "${var.bucket}"
-  acl = ""
-  policy = "${data.template_file.s3_public_policy.rendered}"
+ /* aws_instance Configs */
+  ami_id          = "${var.ami_id}"
+  instance_type   = "${var.instance_type}"
+  instance_name   = "${var.instance_name}"
+  user            = "${var.user}"
+  private_key     = "${var.private_key}"
+  key_name        = "${var.key_name}"
+
+  /* Network/Security Configs */
+  env             = "${var.env}"
+  security_group  = "${module.ec2_security_group.id}"
+  enable_eip      = "${var.enable_eip}"
+  elastic_ip      = "${var.elastic_ip}"
 }

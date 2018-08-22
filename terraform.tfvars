@@ -1,0 +1,8 @@
+private_key               = "./private_key.pem"
+instance_name             = "epc-api-doc-server"
+key_name                  = "epc-docserver-key-pair"
+security_group            = "EC2-EPC-API-Docserver"
+ami_id                    = "ami-0e44353dc3c1de12c"
+instance_type             = "t2.micro"
+user                      = "ec2-user"
+elastic_ip                = "18.223.93.192"

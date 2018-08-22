@@ -1,0 +1,61 @@
+#!/bin/bash
+#
+# Provisioning script for execution by TF remote-exec
+#
+# INSTALL
+#   - git, node/npm, widdershins, gem executables
+#
+# INITIALIZE/CONFIG
+#   - firewalld, nginx, slate
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+#echo "******* Updating yum dependencies ***"
+#sudo yum -y update
+
+echo "******* Install git ***"
+sudo yum -y install git
+
+echo "******* install node/npm ***"
+curl -sL https://rpm.nodesource.com/setup_8.x | sudo -E bash - >> /tmp/out-log.txt
+sudo yum -y -q install nodejs
+
+echo "******* Enable FIREWALLD ***"
+sudo systemctl start firewalld
+
+echo "******* Open Port 80 ***"
+sudo firewall-cmd --zone=public --add-port=80/tcp --permanent
+
+echo "******* Reload firewalld config ***"
+sudo firewall-cmd --reload
+
+echo "******* Start NGINX and Reload server block configs ***"
+sudo systemctl start nginx
+
+echo "******* replace nginx config block with custom server block ***"
+sudo rm /etc/nginx/nginx.conf
+sudo mv /tmp/include/configs/nginx.conf /etc/nginx
+sudo systemctl restart nginx
+sudo systemctl enable nginx
+
+echo "******* change scripts to executable ***"
+sudo chmod +x /tmp/include/*
+
+echo "******* Move api specs in /specs ***"
+sudo mv /tmp/include/specs/ /usr/share/nginx/html/
+
+echo "*******Install widdershins*******"
+sudo npm install -g widdershins
+
+echo "#### Elevate permissions for html folder ####"
+sudo chmod a+rwx /usr/share/nginx/html
+
+echo "#### mv slate app folder into nginx location ####"
+mv /tmp/include/slate /usr/share/nginx/html
+
+echo "#### Installing missing gem executables ####"
+cd /usr/share/nginx/html/slate
+bundle install
+
+echo "####### Convert OpenApi3.0 Specs to markdown and generate static build ########"
+bash /tmp/include/scripts/generate-markdown
