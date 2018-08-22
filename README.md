@@ -1,4 +1,4 @@
-# EPC Documentation Pipeline - Terraform
+# Documentation Pipeline - Terraform
 
 Terraform is an open source tool that provides a flexible abstraction of
 resources and providers. While Terraform is not a configuration management tool,
