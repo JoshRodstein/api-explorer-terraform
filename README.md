@@ -4,10 +4,6 @@ Terraform is an open source tool that provides a flexible abstraction of
 resources and providers. While Terraform is not a configuration management tool,
 it serves a config mgmt. purpose in an immutable infrastructure such as this.
 
-Current auth users for deployment in em-epc-dev:
-
-  `epc-api-docserver-user-ServiceUser-1VFZDXJ931WNG`
-
 ### Deploy commands
 
 Deploy resources with the deploy-stack script. It can be run locally, or in an automation environment.
